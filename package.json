@@ -1,0 +1,38 @@
+{
+  "name": "plantilla-iphone-market",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:market": "playwright test plan-canje-integration",
+    "test:e2e:cotizador-prod": "playwright test cotizador-flow-prod",
+    "test:e2e:cotizador-local": "playwright test cotizador-flow-local"
+  },
+  "dependencies": {
+    "lightweight-charts": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@tailwindcss/vite": "^4.1.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.3.3",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.4.0",
+    "@vitest/ui": "^4.1.7",
+    "jsdom": "^28.1.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.0",
+    "vitest": "^4.0.18"
+  }
+}

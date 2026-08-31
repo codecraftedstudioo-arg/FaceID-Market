@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tema: aplica la clase .dark ANTES del primer paint para evitar flash.
+         El default es LIGHT: solo se activa dark si el usuario lo guardó.
+         No se consulta prefers-color-scheme a propósito: la preferencia del SO
+         no debe forzar el tema. -->
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('market-theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          /* default light: no hacemos nada */
+        }
+      })();
+    </script>
+    <meta name="description" content="Precios en vivo de iPhones nuevos sellados. Garantía oficial Apple. Retiro en local." />
+    <meta name="keywords" content="iPhone, precios, sellado, garantía Apple, comprar iPhone" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:title" content="iPhone Market | Marca Demo" />
+    <meta property="og:description" content="Precios en vivo de iPhones nuevos sellados. Garantía oficial Apple. Retiro en local." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.example.com" />
+    <meta property="og:image" content="https://www.example.com/hero-iphone17-lineup.png" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="iPhone Market | Marca Demo" />
+    <meta name="twitter:description" content="Precios en vivo de iPhones nuevos sellados. Retiro en local." />
+    <meta name="twitter:image" content="https://www.example.com/hero-iphone17-lineup.png" />
+    <title>iPhone Market | Marca Demo</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

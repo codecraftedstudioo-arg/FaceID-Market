@@ -1,0 +1,13 @@
+node_modules
+dist
+*.tsbuildinfo
+.vite
+market-full-page.png
+
+.vercel
+.env
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
