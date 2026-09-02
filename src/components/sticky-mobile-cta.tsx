@@ -62,7 +62,7 @@ export function StickyMobileCTA({
       }`}
       inert={!visible}
     >
-      <div className="bg-surface/95 backdrop-blur-lg border-t border-line pb-[env(safe-area-inset-bottom)]">
+      <div className="bg-bg/95 backdrop-blur-md border-t border-line pb-[env(safe-area-inset-bottom)]">
         <div className="flex items-center gap-3 px-4 py-3">
           <div className="flex flex-col min-w-0 flex-1">
             {productLabel && (
@@ -79,7 +79,7 @@ export function StickyMobileCTA({
           <button
             type="button"
             onClick={onClick}
-            className="shrink-0 bg-accent hover:bg-accent-hover active:bg-accent-hover text-white text-sm font-semibold rounded-xl px-4 py-2.5 leading-tight text-center transition-colors shadow-lg shadow-accent/20"
+            className="shrink-0 bg-cta hover:bg-cta-hover text-cta-contrast text-sm font-semibold rounded-[10px] px-4 py-2.5 leading-tight text-center transition-colors"
           >
             {ctaText}
           </button>

@@ -1,3 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80" role="img" aria-label="Marca Demo">
-  <text x="8" y="52" fill="#ffffff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" font-weight="700">Marca Demo</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" role="img" aria-label="FACE ID">
+  <text
+    x="0"
+    y="30"
+    fill="#111827"
+    font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+    font-size="28"
+    font-weight="700"
+    letter-spacing="4"
+  >FACE ID</text>
 </svg>

@@ -10,44 +10,50 @@
 
 :root {
   color-scheme: light;
-  /* Superficies */
-  --bg: #ffffff;          /* fondo de página */
-  --bg-subtle: #f5f5f7;   /* secciones alternas (gris Apple) */
-  --surface: #ffffff;     /* cards */
-  --surface-2: #f5f5f7;   /* superficie secundaria / elevada */
-  /* Texto */
-  --fg: #1d1d1f;          /* texto principal (casi negro, estilo Apple) */
-  --fg-muted: #3f3f46;    /* texto secundario (más oscuro: mejor legibilidad) */
-  --fg-subtle: #57575e;   /* texto terciario (más oscuro que antes) */
-  /* Bordes */
-  --line: rgba(0, 0, 0, 0.08);
-  --line-strong: rgba(0, 0, 0, 0.14);
-  /* Acento / CTA. En modo CLARO usamos el AZUL Apple (estilo apple.com) — pedido
-     de Lucas: en claro Apple usa azul para los call-to-action en vez del verde.
-     En modo oscuro el acento sigue siendo el verde de marca (ver .dark). */
-  --accent: #0071e3;        /* Apple blue */
-  --accent-hover: #0077ed;
-  --accent-contrast: #ffffff;
+  /* Tokens alineados 1:1 con FaceID-Cotizador. */
+  --bg: #f6f6f4;
+  --bg-subtle: #efefe9;
+  --surface: #ffffff;
+  --surface-2: #fafaf7;
+  --fg: #1f2937;
+  --fg-muted: #4b5563;
+  --fg-subtle: #6b7280;
+  --line: rgba(31, 41, 55, 0.10);
+  --line-strong: rgba(31, 41, 55, 0.18);
+  /* Marca FACE ID: amarillo exacto del Cotizador */
+  --accent: #eab308;
+  --accent-hover: #ca9a06;
+  --accent-contrast: #1f2937;
+  /* CTA principal: azul/negro #1f2937 */
+  --cta: #1f2937;
+  --cta-hover: #111827;
+  --cta-contrast: #ffffff;
+  --radius: 0.625rem;
+  --shadow-sm: 0 1px 2px rgba(31, 41, 55, 0.05), 0 4px 12px rgba(31, 41, 55, 0.04);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 .dark {
   color-scheme: dark;
-  --bg: #000000;
-  --bg-subtle: #0a0a0a;
-  --surface: #191919;
-  --surface-2: #202020;
-  --fg: #ffffff;
-  --fg-muted: rgba(255, 255, 255, 0.62);
-  --fg-subtle: rgba(255, 255, 255, 0.42);
-  --line: rgba(255, 255, 255, 0.1);
+  --bg: #111827;
+  --bg-subtle: #0b1220;
+  --surface: #1f2937;
+  --surface-2: #253041;
+  --fg: #f9fafb;
+  --fg-muted: rgba(249, 250, 251, 0.72);
+  --fg-subtle: rgba(249, 250, 251, 0.48);
+  --line: rgba(255, 255, 255, 0.10);
   --line-strong: rgba(255, 255, 255, 0.18);
-  --accent: #22c55e;        /* verde de marca (CTA en modo oscuro) */
-  --accent-hover: #16a34a;
-  --accent-contrast: #07140c;
+  --accent: #eab308;
+  --accent-hover: #facc15;
+  --accent-contrast: #1f2937;
+  --cta: #f9fafb;
+  --cta-hover: #ffffff;
+  --cta-contrast: #111827;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-/* Exponer los tokens como utilidades Tailwind (bg-bg, text-fg, border-line, …).
-   `inline` hace que Tailwind emita var(--…), así reaccionan al cambio de tema. */
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-subtle: var(--bg-subtle);
@@ -61,6 +67,12 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-contrast: var(--accent-contrast);
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+  --color-cta-contrast: var(--cta-contrast);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --radius-brand: var(--radius);
 }
 
 html, body {
@@ -68,6 +80,12 @@ html, body {
   min-height: 100vh;
   background-color: var(--bg);
   color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 /* Foco visible accesible (solo teclado) — anillo verde de marca. Specificity 0

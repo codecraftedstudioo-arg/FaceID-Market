@@ -1,16 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Header } from '@/components/header'
 import { HeroSection } from '@/components/hero-section'
-import { TradeInCompare } from '@/components/trade-in-compare'
 import { PriceTable } from '@/components/price-table'
-import { SellBanner } from '@/components/sell-banner'
-import { HowItWorks } from '@/components/how-it-works'
-import { WhyChooseUs } from '@/components/why-choose-us'
-import { AdditionalServices } from '@/components/additional-services'
-import { GoogleReviews } from '@/components/google-reviews'
-import { StorePhotos } from '@/components/store-photos'
-import { Faq } from '@/components/faq'
-import { TickerTape } from '@/components/ticker-tape'
 import { Footer } from '@/components/footer'
 import { StickyMobileCTA } from '@/components/sticky-mobile-cta'
 import { WhatsAppFloat } from '@/components/whatsapp-float'
@@ -55,10 +46,6 @@ export default function App() {
     }
   }, [])
 
-  // Auto-refresh: la vidriera muestra "precios en vivo", así que re-consultamos al
-  // panel cada 30s para reflejar cambios del admin sin que el visitante recargue.
-  // Pausa cuando la pestaña no está visible (no gastamos requests de fondo) y
-  // refresca al instante al volver a ella.
   useEffect(() => {
     const POLL_MS = 30_000
     const tick = () => {
@@ -87,35 +74,36 @@ export default function App() {
 
   const loading = data.models.length === 0 && !loadError
   const links = getSiteLinks()
+  const availableCount = data.models.reduce((n, model) => {
+    return n + model.variants.filter((v) => v.inStock !== false && v.priceUSD > 0).length
+  }, 0)
 
   return (
     <div className="min-h-screen bg-bg text-fg">
-      <TickerTape models={data.models} />
       <Header links={links} />
       <main>
-        <HeroSection />
-        <GoogleReviews />
+        <HeroSection
+          modelCount={data.models.length}
+          availableCount={availableCount}
+        />
         <PriceTable
           models={data.models}
           accessories={data.accessories}
           loading={loading}
           error={loadError}
         />
-        <HowItWorks />
-        <SellBanner storeUrl={links.mainSite} instagramUrl={links.instagram} />
-        <WhyChooseUs />
-        <AdditionalServices />
-        <TradeInCompare cotizadorUrl={links.sellYourIphone} />
-        <StorePhotos />
-        <Faq />
       </main>
       <Footer links={links} />
       <StickyMobileCTA
         watchAnchorId="precios"
         hideOnAnchorId="footer"
         productLabel={siteConfig.brand.shortName}
-        priceText={`+${data.models.length} modelos disponibles`}
-        ctaText="Volvé a precios"
+        priceText={
+          data.models.length > 0
+            ? `${data.models.length} modelos disponibles`
+            : 'Catálogo FACE ID'
+        }
+        ctaText="Ver catálogo"
         onClick={() => document.getElementById('precios')?.scrollIntoView({ behavior: 'smooth' })}
       />
       <WhatsAppFloat />

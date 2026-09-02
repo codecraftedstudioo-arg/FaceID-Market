@@ -1,22 +1,20 @@
 import { test, expect } from '@playwright/test'
 
-// Test directo sobre el market site (no producción, usa webServer local)
-
 test.describe('Market — Home y grilla', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
     await page.waitForSelector('#precios', { timeout: 30000 })
   })
 
-  test('hero muestra "iPhones sellados"', async ({ page }) => {
-    const hero = await page.textContent('h1')
-    expect(hero).toMatch(/iPhones sellados/i)
+  test('hero muestra "iPhones disponibles"', async ({ page }) => {
+    const hero = await page.textContent('main')
+    expect(hero).toMatch(/iPhones disponibles/i)
   })
 
-  test('header tiene botón/link al cotizador', async ({ page }) => {
-    // Puede ser botón o link dependiendo del componente
-    const cotizadorLink = page.locator('header').getByText(/Cotizador/i).first()
-    await expect(cotizadorLink).toBeVisible()
+  test('header identifica FACE ID Market', async ({ page }) => {
+    const header = page.locator('header')
+    await expect(header.getByText('FACE ID')).toBeVisible()
+    await expect(header.getByText('Market')).toBeVisible()
   })
 
   test('grilla de precios muestra al menos 5 modelos', async ({ page }) => {
@@ -44,8 +42,12 @@ test.describe('Market — Home y grilla', () => {
     const menorPrecio = page.locator('#precios').getByRole('button', { name: /Menor precio/i })
     await menorPrecio.click()
     await page.waitForTimeout(500)
-    // La grilla sigue visible después del sort
     await expect(page.locator('#precios')).toBeVisible()
+  })
+
+  test('buscador está visible', async ({ page }) => {
+    const search = page.getByPlaceholder(/Buscar modelo, color o almacenamiento/i)
+    await expect(search).toBeVisible()
   })
 })
 
@@ -60,11 +62,11 @@ test.describe('Market — WhatsApp flotante', () => {
 })
 
 test.describe('Market — Footer', () => {
-  test('footer tiene link a tienda online y copyright', async ({ page }) => {
+  test('footer tiene branding FACE ID', async ({ page }) => {
     await page.goto('/')
     const footer = page.locator('footer')
     await expect(footer).toBeVisible()
     const footerText = await footer.textContent()
-    expect(footerText).toMatch(/Marca Demo/i)
+    expect(footerText).toMatch(/FACE ID/i)
   })
 })
