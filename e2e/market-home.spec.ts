@@ -31,23 +31,12 @@ test.describe('Market — Home y grilla', () => {
     await expect(enVivo).toBeVisible()
   })
 
-  test('botones de sort están presentes', async ({ page }) => {
+  test('catálogo no muestra buscador ni filtros de sort', async ({ page }) => {
     const section = page.locator('#precios')
-    await expect(section.getByRole('button', { name: /Disponibles/i })).toBeVisible()
-    await expect(section.getByRole('button', { name: /Menor precio/i })).toBeVisible()
-    await expect(section.getByRole('button', { name: /Mayor precio/i })).toBeVisible()
-  })
-
-  test('sort "Menor precio" es clickeable y no crashea', async ({ page }) => {
-    const menorPrecio = page.locator('#precios').getByRole('button', { name: /Menor precio/i })
-    await menorPrecio.click()
-    await page.waitForTimeout(500)
-    await expect(page.locator('#precios')).toBeVisible()
-  })
-
-  test('buscador está visible', async ({ page }) => {
-    const search = page.getByPlaceholder(/Buscar modelo, color o almacenamiento/i)
-    await expect(search).toBeVisible()
+    await expect(page.getByPlaceholder(/Buscar modelo, color o almacenamiento/i)).toHaveCount(0)
+    await expect(section.getByRole('button', { name: /^Disponibles$/i })).toHaveCount(0)
+    await expect(section.getByRole('button', { name: /Menor precio/i })).toHaveCount(0)
+    await expect(section.getByRole('button', { name: /Mayor precio/i })).toHaveCount(0)
   })
 })
 

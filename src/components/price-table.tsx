@@ -1,12 +1,10 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import type { Model, Accessory } from '@/types/market'
 import { formatStorage } from '@/lib/format'
 import { ProductModal } from '@/components/product-modal'
 import { IphoneImage } from '@/components/iphone-image'
 import { useAnimatedNumber } from '@/lib/use-animated-number'
 import {
-  variantPassesFilters as variantPassesMarketFilters,
-  modelPassesFilters,
   variantAvailability,
   UNAVAILABLE_LABEL,
 } from '@/lib/market-filters'
@@ -18,8 +16,6 @@ interface PriceTableProps {
   /** Error de carga (p. ej. panel Admin caído). No confundir con empty state. */
   error?: string | null
 }
-
-type SortMode = 'price-asc' | 'price-desc' | 'featured' | null
 
 /** Precio animado: anima entre el valor anterior y el nuevo (variant switch, live updates). */
 function AnimatedPrice({ value, className }: { value: number; className?: string }) {
@@ -36,11 +32,6 @@ function OfferBadge({ className = '', dropAmount }: { className?: string; dropAm
     </span>
   )
 }
-
-const sortOptions: { mode: SortMode; label: string }[] = [
-  { mode: 'price-asc', label: 'Menor precio' },
-  { mode: 'price-desc', label: 'Mayor precio' },
-]
 
 const colorMap: Record<string, string> = {
   Orange: '#D97A32',
@@ -118,23 +109,7 @@ function getBestDefaultColor(model: Model, colors: string[]): string {
   return best
 }
 
-function matchesQuery(model: Model, query: string): boolean {
-  const q = query.trim().toLowerCase()
-  if (!q) return true
-  if (model.name.toLowerCase().includes(q)) return true
-  return model.variants.some((v) => {
-    const color = (v.color || '').toLowerCase()
-    const colorEs = (colorNameES[v.color || ''] || '').toLowerCase()
-    const storage = (v.storage || '').toLowerCase()
-    const storageFmt = formatStorage(v.storage).toLowerCase()
-    return color.includes(q) || colorEs.includes(q) || storage.includes(q) || storageFmt.includes(q)
-  })
-}
-
 export function PriceTable({ models, accessories, loading = false, error = null }: PriceTableProps) {
-  const [sort, setSort] = useState<SortMode>(null)
-  const [onlyAvailable, setOnlyAvailable] = useState(false)
-  const [query, setQuery] = useState('')
   const [selectedColors, setSelectedColors] = useState<Record<string, string>>({})
   const [modalModel, setModalModel] = useState<{ model: Model; storage: string; color?: string } | null>(null)
   const [showSkeletonText, setShowSkeletonText] = useState(false)
@@ -146,98 +121,25 @@ export function PriceTable({ models, accessories, loading = false, error = null 
     return () => clearTimeout(t)
   }, [isLoading])
 
-  const sortedModels = useMemo(() => {
-    let copy = [...models]
-    if (query.trim()) {
-      copy = copy.filter((m) => matchesQuery(m, query))
-    }
-    if (onlyAvailable) {
-      copy = copy.filter(m => modelPassesFilters(m, { onlyAvailable, onlyDrops: false }))
-    }
-    const minPrice = (m: Model) => Math.min(...m.variants.filter(v => v.priceUSD > 0).map(v => v.priceUSD), Infinity)
-    switch (sort) {
-      case 'price-asc':
-        return copy.sort((a, b) => minPrice(a) - minPrice(b))
-      case 'price-desc':
-        return copy.sort((a, b) => minPrice(b) - minPrice(a))
-      case 'featured':
-        return copy.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
-      default:
-        return copy
-    }
-  }, [models, sort, onlyAvailable, query])
-
-  const chipClass = (active: boolean) =>
-    `text-xs px-3 py-2 rounded-[10px] border transition-colors cursor-pointer min-h-10 font-medium ${
-      active
-        ? 'border-transparent bg-cta text-cta-contrast'
-        : 'border-line text-fg-muted hover:border-line-strong hover:text-fg bg-surface'
-    }`
-
   return (
     <section id="precios" className="px-4 sm:px-6 pt-2 pb-16 scroll-mt-20">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col gap-4 mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
-            <div>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold text-fg tracking-tight">
-                Catálogo
-              </h2>
-              <p className="text-fg-muted text-sm mt-1 flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                  </span>
-                  En vivo
+          <div>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-fg tracking-tight">
+              Catálogo
+            </h2>
+            <p className="text-fg-muted text-sm mt-1 flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                 </span>
-                <span className="text-line">·</span>
-                <span>Disponibilidad actualizada</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <label className="relative block">
-              <span className="sr-only">Buscar modelo, color o almacenamiento</span>
-              <svg
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-subtle pointer-events-none"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" />
-              </svg>
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Buscar modelo, color o almacenamiento"
-                className="w-full h-12 pl-10 pr-4 rounded-[10px] border border-line bg-surface text-fg placeholder:text-fg-subtle text-sm outline-none focus:border-fg transition-colors"
-              />
-            </label>
-
-            <div className="flex gap-2 flex-wrap">
-              <button
-                type="button"
-                onClick={() => setOnlyAvailable(!onlyAvailable)}
-                className={chipClass(onlyAvailable)}
-              >
-                Disponibles
-              </button>
-              {sortOptions.map(({ mode, label }) => (
-                <button
-                  key={mode}
-                  type="button"
-                  onClick={() => setSort(sort === mode ? null : mode)}
-                  className={chipClass(sort === mode)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+                En vivo
+              </span>
+              <span className="text-line">·</span>
+              <span>Disponibilidad actualizada</span>
+            </p>
           </div>
         </div>
 
@@ -269,36 +171,20 @@ export function PriceTable({ models, accessories, loading = false, error = null 
           </div>
         ) : null}
 
-        {!isLoading && sortedModels.length === 0 && (
+        {!isLoading && models.length === 0 && (
           <div className="text-center py-16 px-4 rounded-2xl border border-line bg-bg-subtle">
-            <p className="text-fg font-medium mb-1">No hay iPhones con ese filtro.</p>
-            <p className="text-sm text-fg-muted mb-4">Probá limpiar la búsqueda o los filtros.</p>
-            <button
-              type="button"
-              onClick={() => {
-                setOnlyAvailable(false)
-                setQuery('')
-                setSort(null)
-              }}
-              className="text-sm font-medium text-fg underline underline-offset-4 cursor-pointer"
-            >
-              Limpiar filtro
-            </button>
+            <p className="text-fg font-medium mb-1">No hay iPhones en el catálogo.</p>
+            <p className="text-sm text-fg-muted">Volvé a intentar en unos minutos.</p>
           </div>
         )}
 
-        {!isLoading && sortedModels.length > 0 && (
+        {!isLoading && models.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {sortedModels.map((model) => {
+            {models.map((model) => {
               const colors = getModelColors(model)
               const hasColors = colors.length > 0
 
-              const validColors = hasColors
-                ? colors.filter(c => model.variants.some(v => v.color === c && variantPassesMarketFilters(v, { onlyAvailable, onlyDrops: false })))
-                : []
-              const effectiveColors = validColors.length > 0 ? validColors : colors
-
-              const defaultColor = hasColors ? getBestDefaultColor(model, effectiveColors) : null
+              const defaultColor = hasColors ? getBestDefaultColor(model, colors) : null
               const userColor = selectedColors[model.id]
               const activeColor = hasColors
                 ? (userColor && colors.includes(userColor) ? userColor : defaultColor)
