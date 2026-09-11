@@ -31,12 +31,15 @@ test.describe('Market — Home y grilla', () => {
     await expect(enVivo).toBeVisible()
   })
 
-  test('catálogo no muestra buscador ni filtros de sort', async ({ page }) => {
+  test('filtros de sort están presentes', async ({ page }) => {
     const section = page.locator('#precios')
-    await expect(page.getByPlaceholder(/Buscar modelo, color o almacenamiento/i)).toHaveCount(0)
-    await expect(section.getByRole('button', { name: /^Disponibles$/i })).toHaveCount(0)
-    await expect(section.getByRole('button', { name: /Menor precio/i })).toHaveCount(0)
-    await expect(section.getByRole('button', { name: /Mayor precio/i })).toHaveCount(0)
+    await expect(section.getByRole('button', { name: /^Disponibles$/i })).toBeVisible()
+    await expect(section.getByRole('button', { name: /Menor precio/i })).toBeVisible()
+    await expect(section.getByRole('button', { name: /Mayor precio/i })).toBeVisible()
+  })
+
+  test('tablero muestra título de precios en vivo', async ({ page }) => {
+    await expect(page.locator('#precios').getByText(/Precios actualizados en tiempo real|Precios/i).first()).toBeVisible()
   })
 })
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Header } from '@/components/header'
 import { HeroSection } from '@/components/hero-section'
+import { TickerTape } from '@/components/ticker-tape'
 import { PriceTable } from '@/components/price-table'
 import { Footer } from '@/components/footer'
 import { StickyMobileCTA } from '@/components/sticky-mobile-cta'
@@ -80,6 +81,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-bg text-fg">
+      {data.models.length > 0 ? <TickerTape models={data.models} /> : null}
       <Header links={links} />
       <main>
         <HeroSection
@@ -103,7 +105,7 @@ export default function App() {
             ? `${data.models.length} modelos disponibles`
             : 'Catálogo FACE ID'
         }
-        ctaText="Ver catálogo"
+        ctaText="Reservar al precio de hoy"
         onClick={() => document.getElementById('precios')?.scrollIntoView({ behavior: 'smooth' })}
       />
       <WhatsAppFloat />

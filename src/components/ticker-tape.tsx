@@ -36,7 +36,7 @@ function TickerItem({ model }: { model: Model }) {
           <span key={variant.storage} className="inline-flex items-center gap-1">
             <span className="text-fg-subtle text-[11px]">{formatStorage(variant.storage)}</span>
             <span className={`font-mono font-bold text-xs ${vs.color}`}>
-              {variant.priceUSD > 0 ? `$${formatPrice(variant.priceUSD)}` : 'Consultar'}
+              {variant.priceUSD > 0 ? `USD ${formatPrice(variant.priceUSD)}` : 'Consultar'}
             </span>
             {vs.symbol && <span className={`text-[8px] ${vs.color}`}>{vs.symbol}</span>}
           </span>

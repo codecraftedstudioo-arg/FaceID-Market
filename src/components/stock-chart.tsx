@@ -270,7 +270,8 @@ export function StockChart({ compact = false, models = [] }: StockChartProps) {
         <div className="px-4 sm:px-5 pt-3 pb-1">
           <p className="text-xs sm:text-sm text-fg-muted font-mono mb-0.5 truncate">{productLabel}</p>
           <span className="text-fg text-lg sm:text-xl font-bold font-mono tabular-nums leading-none">
-            ${livePrice.toLocaleString('es-AR')}
+            <span className="text-sm font-semibold mr-1">USD</span>
+            {livePrice.toLocaleString('es-AR')}
           </span>
         </div>
         {/* Chart */}
@@ -287,7 +288,8 @@ export function StockChart({ compact = false, models = [] }: StockChartProps) {
           <div>
             <p className="text-xs text-fg-muted font-mono mb-1">{productLabel}</p>
             <span className="text-fg text-4xl sm:text-5xl font-bold font-mono tabular-nums leading-none">
-              ${livePrice.toLocaleString('es-AR')}
+              <span className="text-lg sm:text-2xl font-semibold mr-1">USD</span>
+              {livePrice.toLocaleString('es-AR')}
             </span>
           </div>
           <div className="flex items-center gap-1.5 mb-1">

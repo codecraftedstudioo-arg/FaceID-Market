@@ -84,7 +84,7 @@ export function Header({ links }: HeaderProps) {
               href={mainSite}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-semibold text-cta-contrast bg-cta hover:bg-cta-hover px-4 py-2 rounded-[10px] transition-colors"
+              className="text-sm font-semibold text-accent-contrast bg-accent hover:bg-accent-hover px-4 py-2 rounded-[10px] transition-colors"
             >
               Sitio oficial
             </a>
@@ -145,7 +145,7 @@ export function Header({ links }: HeaderProps) {
                 href={mainSite}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-semibold text-center text-cta-contrast bg-cta rounded-[10px] py-3 mt-1"
+                className="text-sm font-semibold text-center text-accent-contrast bg-accent hover:bg-accent-hover rounded-[10px] py-3 mt-1"
                 onClick={() => setMenuOpen(false)}
               >
                 Sitio oficial
