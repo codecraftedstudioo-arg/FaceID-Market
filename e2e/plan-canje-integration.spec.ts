@@ -6,13 +6,13 @@ test.describe('Market — Plan Canje integration', () => {
     await page.waitForSelector('#precios')
   })
 
-  test('botón "Ver catálogo" existe en hero', async ({ page }) => {
-    const btn = page.getByRole('button', { name: /Ver catálogo/i })
+  test('botón "Ver precios" existe en hero', async ({ page }) => {
+    const btn = page.getByRole('button', { name: /Ver precios/i })
     await expect(btn).toBeVisible()
   })
 
   test('botón hero scrollea hacia precios', async ({ page }) => {
-    const btn = page.getByRole('button', { name: /Ver catálogo/i }).first()
+    const btn = page.getByRole('button', { name: /Ver precios/i }).first()
     await btn.click()
     await page.waitForTimeout(1500)
 

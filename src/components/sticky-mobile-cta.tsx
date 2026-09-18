@@ -79,7 +79,7 @@ export function StickyMobileCTA({
           <button
             type="button"
             onClick={onClick}
-            className="shrink-0 bg-cta hover:bg-cta-hover text-cta-contrast text-sm font-semibold rounded-[10px] px-4 py-2.5 leading-tight text-center transition-colors"
+            className="shrink-0 bg-[#25D366] hover:bg-[#20bd5a] text-white text-sm font-semibold rounded-[10px] px-4 py-2.5 leading-tight text-center transition-colors"
           >
             {ctaText}
           </button>

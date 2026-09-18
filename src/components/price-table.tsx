@@ -544,7 +544,7 @@ export function PriceTable({ models, accessories, loading = false, error = null 
                         onClick={() => setModalModel({ model, storage: activeStorage, color: activeVariant.color })}
                         className={`w-full mt-3 py-3 rounded-xl text-sm font-semibold transition-all active:scale-[0.99] ${
                           available
-                            ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm shadow-emerald-600/25'
+                            ? 'bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-[0_8px_24px_rgba(37,211,102,0.28)]'
                             : 'bg-fg/10 hover:bg-fg/15 text-fg-muted border border-line-strong'
                         }`}
                       >
@@ -730,7 +730,7 @@ export function PriceTable({ models, accessories, loading = false, error = null 
                         <td className="px-3 py-3 text-center">
                           <span className={`inline-flex items-center justify-center font-semibold rounded-lg transition-colors text-center leading-tight ${
                             isAvailable
-                              ? 'text-sm text-emerald-400 bg-emerald-500/15 border border-emerald-500/25 px-5 py-2.5 group-hover/row:bg-emerald-500/25'
+                              ? 'text-sm text-white bg-[#25D366] hover:bg-[#20bd5a] px-5 py-2.5 group-hover/row:bg-[#20bd5a]'
                               : 'text-xs text-fg-muted bg-fg/5 border border-line px-4 py-2 group-hover/row:bg-fg/10 group-hover/row:text-fg'
                           }`}>
                             {isAvailable ? (<>Reservar al<br />precio de hoy</>) : (<>Consultar<br />disponibilidad</>)}
