@@ -75,19 +75,13 @@ export default function App() {
 
   const loading = data.models.length === 0 && !loadError
   const links = getSiteLinks()
-  const availableCount = data.models.reduce((n, model) => {
-    return n + model.variants.filter((v) => v.inStock !== false && v.priceUSD > 0).length
-  }, 0)
 
   return (
     <div className="min-h-screen bg-bg text-fg">
       {data.models.length > 0 ? <TickerTape models={data.models} /> : null}
       <Header links={links} />
       <main>
-        <HeroSection
-          modelCount={data.models.length}
-          availableCount={availableCount}
-        />
+        <HeroSection />
         <PriceTable
           models={data.models}
           accessories={data.accessories}

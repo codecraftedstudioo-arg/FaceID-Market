@@ -1,12 +1,5 @@
 import { siteConfig } from '@/config/site'
 
-interface HeroSectionProps {
-  /** Cantidad de modelos cargados desde FaceID-Admin. */
-  modelCount?: number
-  /** Variantes disponibles (stock + precio). */
-  availableCount?: number
-}
-
 const LOCAL_PHOTO = '/brand/local-faceid.jpg'
 
 function scrollToPrecios() {
@@ -16,9 +9,7 @@ function scrollToPrecios() {
   window.scrollTo({ top, behavior: 'smooth' })
 }
 
-export function HeroSection({ modelCount = 0, availableCount = 0 }: HeroSectionProps) {
-  const hasLiveData = modelCount > 0
-
+export function HeroSection() {
   return (
     <section className="relative isolate overflow-hidden min-h-[620px] sm:min-h-[680px] lg:min-h-[740px] flex items-center justify-center">
       {/* Foto del local: cubre todo el hero. El blur solo aplica a esta capa. */}
@@ -59,16 +50,6 @@ export function HeroSection({ modelCount = 0, availableCount = 0 }: HeroSectionP
         <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto leading-relaxed mb-8">
           Equipos seleccionados y actualizados en tiempo real.
         </p>
-
-        {hasLiveData ? (
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-8">
-            <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 text-xs sm:text-sm text-white/85">
-              {availableCount > 0
-                ? `${availableCount} con stock · ${modelCount} modelos`
-                : `${modelCount} modelos en catálogo`}
-            </span>
-          </div>
-        ) : null}
 
         <button
           type="button"
